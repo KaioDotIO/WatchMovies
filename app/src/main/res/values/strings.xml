@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WatchMovies</string>
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="throw_login_email_error">Please enter an valid e-mail</string>
+    <string name="throw_login_password_error">Invalid password</string>
+
+</resources>
