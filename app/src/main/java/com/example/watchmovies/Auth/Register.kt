@@ -3,47 +3,56 @@ package com.example.watchmovies.Auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.view.LayoutInflater
 import android.widget.TextView
 import com.example.watchmovies.R
+import com.example.watchmovies.databinding.ActivityRegisterBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
 class Register : AppCompatActivity() {
+    private lateinit var binding: ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setup()
+    }
 
-        val emailField = findViewById<EditText>(R.id.register_emailField)
-        val passwordField = findViewById<EditText>(R.id.register_passwordField)
-        val errorField = findViewById<TextView>(R.id.register_errorMessage)
-        val registerActionButton = findViewById<Button>(R.id.register_actionButton)
+    private fun setup() {
+        onRegisterButtonClick()
+        moveToLoginScreen()
+    }
 
-        registerActionButton.setOnClickListener {
+    private fun onRegisterButtonClick() {
+        binding.registerActionButton.setOnClickListener {
             when {
-                !emailValidator(emailField.text.toString()) -> errorField.text =
-                    "Please enter an valid email."
-                !passwordValidator(passwordField.text.toString()) -> errorField.text =
-                    "Password must have at least 8 characters"
+                !emailValidator(binding.registerEmailField.text.toString()) -> binding.registerErrorMessage.text =
+                    getString(R.string.invalidEmail)
+                !passwordValidator(binding.registerPasswordField.text.toString()) -> binding.registerErrorMessage.text =
+                    getString(R.string.shortPassword)
                 else -> {
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                        emailField.text.toString(),
-                        passwordField.text.toString()
+                        binding.registerEmailField.text.toString(),
+                        binding.registerPasswordField.text.toString()
                     ).addOnCompleteListener(
                         OnCompleteListener<AuthResult> { task ->
                             if (task.isSuccessful) {
-                                errorField.text = "successfully registered."
+                                binding.registerErrorMessage.text =
+                                    getString(R.string.successRegstration)
                             } else {
-                                errorField.text = "E-mail already registered by another user."
+                                binding.registerErrorMessage.text =
+                                    getString(R.string.alreadyRegisteredUser)
                             }
                         }
                     )
                 }
             }
         }
-        // Move to Login Screen
+    }
+
+    private fun moveToLoginScreen() {
         val loginScreenButton = findViewById<TextView>(R.id.register_goToLogin)
         loginScreenButton.setOnClickListener {
             val intent = Intent(this@Register, Login::class.java)
@@ -52,3 +61,4 @@ class Register : AppCompatActivity() {
         }
     }
 }
+

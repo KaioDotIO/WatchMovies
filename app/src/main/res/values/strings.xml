@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">WatchMovies</string>
 
-    <!-- LOGIN ACTIVITY -->
-    <string name="throw_login_email_error">Please enter an valid e-mail</string>
-    <string name="throw_login_password_error">Invalid password</string>
-
+    <!-- Autentication -->
+    <string name="invalidEmail">Please enter an valid e-mail.</string>
+    <string name="invalidPassword">The password is invalid or the user does not have a password.</string>
+    <string name="shortPassword">Password must have at least 8 characters.</string>
+    <string name="alreadyRegisteredUser">E-mail already registered by another user.</string>
+    <string name="successRegstration">successfully registered.</string>
 </resources>
